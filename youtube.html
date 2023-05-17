@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
+
+    <!-- <iframe id="ytplayer" type="text/html" width="720" height="405"
+    src="https://www.youtube.com/embed/7tkbzxa8MFQ?autoplay=1&end=53&fs=0&loop=1&modestbranding=1&start=50"
+    frameborder="0" allowfullscreen> * -->
+    <!-- <img src="https://img.youtube.com/vi/M7lc1UVf-VE/default.jpg"> 유튜브 썸네일-->
+
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      var src = '7tkbzxa8MFQ';
+      //src = 'UBURTj20HXI';
+      //var src = '6Cp6mKbRTQY';
+
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '360',
+          width: '640',
+          videoId: src,
+          playerVars: { 
+            'autoplay' : 1, 
+            //'controls': 0    //하단 바 표시 (0으로 하면 자동재생이 안돼)
+            //'disablekb' : 0,   //키보드 컨트롤 방해
+            start : 0,     
+            totalTime : 0,
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange, 
+            //'onError': onPlayerError            
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {        
+        event.target.playVideo();
+      }      
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+         if (200 <= player.getDuration())  {
+           player.destroy();
+         }
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          //setTimeout(pauseVideo, 1000 * 5); // 1000당 1초     
+          ;
+        }
+        else if (event.data == YT.PlayerState.PAUSED && !done) {
+          player.seekTo( 0 ); //start를 넣으면 왜 안될까
+          setTimeout(playVideo, 1000 * 2);                    
+        }
+      
+      }
+      
+      function onPlayerError(event) {
+        player.onError();
+      }
+
+      function playVideo() {
+        player.playVideo();        
+      }
+
+      function pauseVideo() {
+        player.pauseVideo();        
+      }
+
+      function stopVideo() {
+        player.stopVideo();        
+      }
+
+    </script>
+  </body>
+</html>
