@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // API 클라이언트를 비동기적으로 로드합니다.
+    function loadClient() {
+      gapi.client.setApiKey('AIzaSyCA5aL7Uuk4JHFC6ma_qD5WtAifto0eWEo');
+      gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
+    }
+
+    // YouTube API가 로드되면 호출되는 콜백 함수입니다.
+    function onYouTubeApiLoad() {
+      // 플레이어 API 코드를 비동기적으로 로드합니다.
+      gapi.client.load('youtube', 'v3', function() {
+        // 동영상 재생할 iframe을 생성합니다.
+        var player = new YT.Player('player', {
+          height: '360',
+          width: '640',
+          videoId: 'cHHLHGNpCSA', // 재생할 YouTube 동영상의 ID를 입력합니다. 
+          //UBURTj20HXI  cHHLHGNpCSA
+          playerVars: {
+            'origin': window.location.origin,
+          },
+        });
+      });
+    }
+  </script>
+  <script src="http://apis.google.com/js/client.js?onload=loadClient"></script>
+</head>
+<body>
+  <!-- 동영상을 재생할 <div> 요소입니다. -->
+    <div id="player"></div>
+        
+</body>
+</html>

@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>audio</title>
+</head>
+<body>
+
+    <audio id="myAudio" controls autoplay> 
+        <source src="../sound.MP3" type="audio/mpeg">
+    </audio>
+
+    <button onclick="play()" type = "button"> 실행 </button>
+    <button onclick="pause()" type = "button"> 일시정지  </button>
+
+    <script>
+        const myAudio = document.getElementById("myAudio") // Audio객체 취득
+        var start = 25;
+        var end   = 35;
+        var breaktime = 5;
+  
+        
+        myAudio.addEventListener("timeupdate", function() {
+            if (myAudio.currentTime <= start) {
+                myAudio.currentTime = start;
+            }
+            if (end <= myAudio.currentTime) {
+                pause();
+                setTime();
+                setTimeout(play, 1000 * breaktime);
+            }
+        });
+
+
+        function play() {            
+            myAudio.play();
+        }
+
+        function pause() {            
+            myAudio.pause(); 
+        }
+               
+        function setTime() {
+            myAudio.currentTime = start;
+        }
+
+    </script>
+    
+</body>
+</html>
